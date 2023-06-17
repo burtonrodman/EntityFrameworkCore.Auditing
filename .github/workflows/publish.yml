@@ -22,4 +22,4 @@ jobs:
         run: dotnet pack src/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing.csproj -c Release
 
       - name: Publish NuGet Package
-        run: dotnet nuget push /home/runner/work/src/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push /home/runner/work/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing/src/EntityFrameworkCore.Auditing/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
