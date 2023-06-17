@@ -61,6 +61,7 @@ public abstract class AuditableDbContext : DbContext
     private List<EntityEntry> ApplyAuditing()
     {
         var deletedEntries = new List<EntityEntry>();
+        var userName = _currentUserAccessor.GetUserName();
         foreach (var entry in ChangeTracker.Entries())
         {
             if (entry.Entity is AuditingEntityBase auditable)
@@ -71,7 +72,7 @@ public abstract class AuditableDbContext : DbContext
                     entry.State = EntityState.Unchanged;
                     deletedEntries.Add(entry);
                 }
-                auditable.ModifiedBy = _currentUserAccessor.GetUserName();
+                auditable.ModifiedBy = userName;
             }
         }
         return deletedEntries;
