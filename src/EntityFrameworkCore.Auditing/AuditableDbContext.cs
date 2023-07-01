@@ -8,7 +8,7 @@ public abstract class AuditableDbContext : DbContext
     private readonly ICurrentUserAccessor _currentUserAccessor;
 
     protected AuditableDbContext(
-        DbContextOptions<AuditableDbContext> options,
+        DbContextOptions options,
         ICurrentUserAccessor currentUserAccessor
     ) : base(options)
     {
@@ -66,13 +66,19 @@ public abstract class AuditableDbContext : DbContext
         {
             if (entry.Entity is AuditingEntityBase auditable)
             {
-                if (entry.State == EntityState.Deleted)
+                switch (entry.State)
                 {
-                    // mark delete rows unchanged so all fields aren't updated.
-                    entry.State = EntityState.Unchanged;
-                    deletedEntries.Add(entry);
+                    case EntityState.Deleted:
+                        // mark delete rows unchanged so all fields aren't updated.
+                        entry.State = EntityState.Unchanged;
+                        deletedEntries.Add(entry);
+                        auditable.ModifiedBy = userName;
+                        break;
+                    case EntityState.Modified:
+                    case EntityState.Added:
+                        auditable.ModifiedBy = userName;
+                        break;
                 }
-                auditable.ModifiedBy = userName;
             }
         }
         return deletedEntries;
