@@ -1,3 +1,6 @@
 {
-    "dotnet.defaultSolution": "EntityFrameworkCore.Auditing.sln"
+    "dotnet.defaultSolution": "EntityFrameworkCore.Auditing.sln",
+    "cSpell.words": [
+        "burtonrodman"
+    ]
 }
