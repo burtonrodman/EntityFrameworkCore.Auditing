@@ -7,6 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3C4AD78F-0B9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.Auditing", "src\EntityFrameworkCore.Auditing\EntityFrameworkCore.Auditing.csproj", "{521755D8-0985-464A-82F9-84A14B19C958}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1697427F-DEA2-4E59-9F98-5CF728FB0526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkCore.Auditing.Tests", "tests\EntityFrameworkCore.Auditing.Tests\EntityFrameworkCore.Auditing.Tests.csproj", "{50D4A540-D36C-47EC-9869-545F6F2C1E66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E7799A66-2F60-4656-A524-3230D11E8A18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "samples\ConsoleApp1\ConsoleApp1.csproj", "{A1E58664-C21C-4929-B2C7-1AB9707B8B8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +28,18 @@ Global
 		{521755D8-0985-464A-82F9-84A14B19C958}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{521755D8-0985-464A-82F9-84A14B19C958}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{521755D8-0985-464A-82F9-84A14B19C958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50D4A540-D36C-47EC-9869-545F6F2C1E66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50D4A540-D36C-47EC-9869-545F6F2C1E66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50D4A540-D36C-47EC-9869-545F6F2C1E66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50D4A540-D36C-47EC-9869-545F6F2C1E66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E58664-C21C-4929-B2C7-1AB9707B8B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E58664-C21C-4929-B2C7-1AB9707B8B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E58664-C21C-4929-B2C7-1AB9707B8B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E58664-C21C-4929-B2C7-1AB9707B8B8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{521755D8-0985-464A-82F9-84A14B19C958} = {3C4AD78F-0B96-4FF9-A9CD-3ADB1F63FF0C}
+		{50D4A540-D36C-47EC-9869-545F6F2C1E66} = {1697427F-DEA2-4E59-9F98-5CF728FB0526}
+		{A1E58664-C21C-4929-B2C7-1AB9707B8B8B} = {E7799A66-2F60-4656-A524-3230D11E8A18}
 	EndGlobalSection
 EndGlobal
