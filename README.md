@@ -8,7 +8,7 @@ A base class and utilities to implement auditing with SQL Server temporal tables
 - `Microsoft.EntityFrameworkCore.Design`
 - `burtonrodman.EntityFrameworkCore.Auditing`
 
-## Create the CurrentUserAccessor
+## Implement ICurrentUserAccessor or use DelegateCurrentUserAccessor
 1. Create a class that implements the `ICurrentUserAccessor` interface and returns the current user's identifier (whatever that means in your domain).  This will often be the Name property of the current ClaimsPrincipal, but may vary in your domain.
 ```
 public class CurrentUserAccessor : ICurrentUserAccessor
@@ -19,6 +19,18 @@ public class CurrentUserAccessor : ICurrentUserAccessor
 2. Register it in the DI container.  Example:
 ```
 services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
+```
+
+Alternatively you may provide an instance of `DelegateCurrentUserAccessor` that takes a `Func<string>`, or `Func<IServiceProvider, string>` that retrieves the user name.
+```
+services.AddScoped<ICurrentUserAccessor>(new DelegateCurrentUserAccessor(() => "current.user@domain.com"));
+```
+OR
+```
+services.AddScoped<ICurrentUserAccessor>(serviceProvider => new DelegateCurrentUserAccessor(sp => {
+    var context = sp.GetRequiredService<IHttpContextAccessor>();
+    return context.HttpContext.Identity?.Name;
+}, serviceProvider));
 ```
 
 ## Setup your DbContext
@@ -38,7 +50,7 @@ public class SampleDbContext : AuditableDbContext
 ```
 3. On any entity types that you want to be auditable, set the base class to `AuditableEntityBase`.
 ```
-public class BlogPost : AuditingEntityBase
+public class BlogPost : AuditableEntityBase
 ```
 4. determine if the current run-time context is talking to SQL Server:
 
