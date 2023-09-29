@@ -12,8 +12,8 @@ public static class TemporalTableBuilderExtensions
     {
         builder.IsTemporal(ttb =>
         {
-            ttb.HasPeriodStart(AuditingEntityBase.PeriodStart);
-            ttb.HasPeriodEnd(AuditingEntityBase.PeriodEnd);
+            ttb.HasPeriodStart(AuditableEntityBase.PeriodStart);
+            ttb.HasPeriodEnd(AuditableEntityBase.PeriodEnd);
             ttb.UseHistoryTable($"{tableName}History");
         });
         return builder;
@@ -29,8 +29,8 @@ public static class TemporalTableBuilderExtensions
     {
         if (shouldAddShadowProperties)
         {
-            builder.Property<DateTime>(AuditingEntityBase.PeriodStart);
-            builder.Property<DateTime>(AuditingEntityBase.PeriodEnd);
+            builder.Property<DateTime>(AuditableEntityBase.PeriodStart);
+            builder.Property<DateTime>(AuditableEntityBase.PeriodEnd);
         }
     }
 }

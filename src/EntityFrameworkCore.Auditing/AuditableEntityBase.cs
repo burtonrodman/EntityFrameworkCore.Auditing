@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace burtonrodman.EntityFrameworkCore.Auditing;
 
-public abstract class AuditingEntityBase
+public abstract class AuditableEntityBase
 {
     public const string PeriodStart = nameof(PeriodStart);
     public const string PeriodEnd = nameof(PeriodEnd);

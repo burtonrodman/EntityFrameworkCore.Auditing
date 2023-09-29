@@ -64,7 +64,7 @@ public abstract class AuditableDbContext : DbContext
         var userName = _currentUserAccessor.GetUserName();
         foreach (var entry in ChangeTracker.Entries())
         {
-            if (entry.Entity is AuditingEntityBase auditable)
+            if (entry.Entity is AuditableEntityBase auditable)
             {
                 switch (entry.State)
                 {
