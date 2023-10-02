@@ -9,6 +9,7 @@ public abstract class AuditableEntityBase
     public const string PeriodEnd = nameof(PeriodEnd);
 
     [Required]
+    [MaxLength(100)]
     public string? ModifiedBy { get; set; }
 
     [NotMapped]
