@@ -47,9 +47,11 @@ public abstract class AuditableDbContext : DbContext
 
     private static bool RemarkDeletedEntries(List<EntityEntry> deletedEntries)
     {
-        if (deletedEntries.Any())
+        var deletedEntriesThatAreNotDetached = deletedEntries.Where(x => x.State != EntityState.Detached);
+
+        if (deletedEntriesThatAreNotDetached.Any())
         {
-            foreach (var entry in deletedEntries)
+            foreach (var entry in deletedEntriesThatAreNotDetached)
             {
                 entry.State = EntityState.Deleted;
             }
