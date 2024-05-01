@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
         <AssemblyName>burtonrodman.EntityFrameworkCore.Auditing</AssemblyName>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Authors>Burton Rodman</Authors>
         <PackageProjectUrl>https://github.com/burtonrodman/EntityFrameworkCore.Auditing</PackageProjectUrl>
@@ -16,8 +16,16 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.18" />
+    <ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.29" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net7.0'">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.18" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)'=='net8.0'">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
     </ItemGroup>
 
     <ItemGroup>
