@@ -23,14 +23,14 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
         })
         .FirstOrDefault();
 
-    Console.WriteLine($"post was created by {post.ModifiedBy} on {post.LastModifiedDate}");
+    Console.WriteLine($"post was created by {post!.ModifiedBy} on {post!.LastModifiedDate}");
 }
 
 
 using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAccessor))
 {
     var post = context.BlogPosts.FirstOrDefault();
-    post.Title = post.Title + " (modified)";
+    post!.Title = post.Title + " (modified)";
     context.SaveChanges();
 }
 
@@ -45,14 +45,14 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
         })
         .FirstOrDefault();
 
-    Console.WriteLine($"post was created by {post.ModifiedBy} on {post.LastModifiedDate}");
+    Console.WriteLine($"post was created by {post!.ModifiedBy} on {post!.LastModifiedDate}");
 }
 
 
 using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAccessor))
 {
     var post = context.BlogPosts.FirstOrDefault();
-    context.BlogPosts.Remove(post);
+    context.BlogPosts.Remove(post!);
     context.SaveChanges();
 }
 
@@ -69,7 +69,7 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
         })
         .FirstOrDefault();
 
-    Console.WriteLine($"post was deleted by {post.ModifiedBy} on {post.DeleteDate}");
+    Console.WriteLine($"post was deleted by {post!.ModifiedBy} on {post!.DeleteDate}");
 }
 
 
