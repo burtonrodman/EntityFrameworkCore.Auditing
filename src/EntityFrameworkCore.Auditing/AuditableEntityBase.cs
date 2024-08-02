@@ -5,8 +5,8 @@ namespace burtonrodman.EntityFrameworkCore.Auditing;
 
 public abstract class AuditableEntityBase
 {
-    public const string PeriodStart = nameof(PeriodStart);
-    public const string PeriodEnd = nameof(PeriodEnd);
+    public static string PeriodStart { get; set; } = nameof(PeriodStart);
+    public static string PeriodEnd { get; set; } = nameof(PeriodEnd);
 
     [Required]
     [MaxLength(100)]

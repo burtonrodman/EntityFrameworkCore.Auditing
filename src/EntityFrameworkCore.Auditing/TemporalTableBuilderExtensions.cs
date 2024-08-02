@@ -8,12 +8,16 @@ public static class TemporalTableBuilderExtensions
     /// <summary>
     /// mark a table as temporal, explicitly specifying period columns and History table names per our convention to prevent migrations from inventing its own.
     ///
-    public static TableBuilder IsTemporalExplicit(this TableBuilder builder, string tableName)
+    public static TableBuilder IsTemporalExplicit(
+      this TableBuilder builder,
+      string tableName,
+      string? periodStart = null,
+      string? periodEnd = null)
     {
         builder.IsTemporal(ttb =>
         {
-            ttb.HasPeriodStart(AuditableEntityBase.PeriodStart);
-            ttb.HasPeriodEnd(AuditableEntityBase.PeriodEnd);
+            ttb.HasPeriodStart(periodStart ?? AuditableEntityBase.PeriodStart);
+            ttb.HasPeriodEnd(periodEnd ?? AuditableEntityBase.PeriodEnd);
             ttb.UseHistoryTable($"{tableName}History");
         });
         return builder;
