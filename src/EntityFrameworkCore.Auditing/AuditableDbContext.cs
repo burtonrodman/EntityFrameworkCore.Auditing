@@ -89,12 +89,8 @@ public abstract class AuditableDbContext : DbContext
     }
 
     protected void ConfigureTemporalTables(ModelBuilder builder,
-      string? periodStart = null, string? periodEnd = null,
       bool? shouldAddShadowProperties = null)
     {
-      if (periodStart is not null) this.PeriodStart = periodStart;
-      if (periodEnd is not null) this.PeriodEnd = periodEnd;
-
       // partially derived from: https://fiseni.com/posts/simplifying-configuration-for-temporal-tables-in-EF-Core/
       foreach (var entityType in builder.Model.GetEntityTypes())
       {

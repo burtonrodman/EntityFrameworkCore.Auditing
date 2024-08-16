@@ -73,8 +73,15 @@ for testing scenarios where you may be using an in-memory or sqlite provider, th
 
  6. OPTIONAL:  override the Period column names:
  ```
-      ConfigureTemporalTables(modelBuilder, "SysStartTime", "SysEndTime",
-        shouldAddShadowProperties: !this.Database.IsSqlServer());
+    public SampleDbContext(
+        DbContextOptions<SampleDbContext> dbContextOptions,
+        ICurrentUserAccessor currentUserAccessor)
+        : base(dbContextOptions, currentUserAccessor)
+    { 
+      // OPTIONAL:  override the default Period column names
+      this.PeriodStart = "SysStartTime";
+      this.PeriodEnd = "SysEndTime";
+    }
  ```
 
 ## Create A Migration
@@ -99,9 +106,11 @@ In order to create a full audit log (including when AND who), this library adds 
     public const string PeriodStartColumnName = "SysStartTime";
     public const string PeriodEndColumnName = "SysEndTime";
 ```
-Use in OnModelCreating:
+Use in constructor:
 ```
-      ConfigureTemporalTables(modelBuilder, PeriodStartColumnName, PeriodEndColumnName);
+      // OPTIONAL:  override the default Period column names
+      this.PeriodStart = PeriodStartColumnName;
+      this.PeriodEnd = PeriodEndColumnName;
 ```
 
 # Contributing

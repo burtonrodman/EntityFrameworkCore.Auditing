@@ -39,15 +39,15 @@ namespace ConsoleApp1.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("PeriodEnd")
+                    b.Property<DateTime>("SysEndTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasColumnName("PeriodEnd");
+                        .HasColumnName("SysEndTime");
 
-                    b.Property<DateTime>("PeriodStart")
+                    b.Property<DateTime>("SysStartTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasColumnName("PeriodStart");
+                        .HasColumnName("SysStartTime");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -61,11 +61,11 @@ namespace ConsoleApp1.Migrations
                             {
                                 ttb.UseHistoryTable("BlogPostsHistory");
                                 ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
+                                    .HasPeriodStart("SysStartTime")
+                                    .HasColumnName("SysStartTime");
                                 ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
+                                    .HasPeriodEnd("SysEndTime")
+                                    .HasColumnName("SysEndTime");
                             }));
                 });
 
@@ -82,15 +82,15 @@ namespace ConsoleApp1.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("PeriodEnd")
+                    b.Property<DateTime>("SysEndTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasColumnName("PeriodEnd");
+                        .HasColumnName("SysEndTime");
 
-                    b.Property<DateTime>("PeriodStart")
+                    b.Property<DateTime>("SysStartTime")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("datetime2")
-                        .HasColumnName("PeriodStart");
+                        .HasColumnName("SysStartTime");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -104,11 +104,11 @@ namespace ConsoleApp1.Migrations
                             {
                                 ttb.UseHistoryTable("MyWeirdlyNamedUsersTableHistory");
                                 ttb
-                                    .HasPeriodStart("PeriodStart")
-                                    .HasColumnName("PeriodStart");
+                                    .HasPeriodStart("SysStartTime")
+                                    .HasColumnName("SysStartTime");
                                 ttb
-                                    .HasPeriodEnd("PeriodEnd")
-                                    .HasColumnName("PeriodEnd");
+                                    .HasPeriodEnd("SysEndTime")
+                                    .HasColumnName("SysEndTime");
                             }));
                 });
 #pragma warning restore 612, 618
