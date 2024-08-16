@@ -19,7 +19,7 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
             Title = p.Title,
             Body = p.Body,
             ModifiedBy = p.ModifiedBy,
-            LastModifiedDate = EF.Property<DateTime>(p, AuditableEntityBase.PeriodStart)
+            LastModifiedDate = EF.Property<DateTime>(p, context.PeriodStart)
         })
         .FirstOrDefault();
 
@@ -41,7 +41,7 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
             Title = p.Title,
             Body = p.Body,
             ModifiedBy = p.ModifiedBy,
-            LastModifiedDate = EF.Property<DateTime>(p, AuditableEntityBase.PeriodStart)
+            LastModifiedDate = EF.Property<DateTime>(p, context.PeriodStart)
         })
         .FirstOrDefault();
 
@@ -59,13 +59,13 @@ using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAcce
 using (var context = new SampleDbContext(optionsBuilder.Options, currentUserAccessor))
 {
     var post = context.BlogPosts.TemporalAll()
-        .Where(p => EF.Property<DateTime?>(p, AuditableEntityBase.PeriodEnd) != null)
+        .Where(p => EF.Property<DateTime?>(p, context.PeriodEnd) != null)
         .Select(p => new BlogPost() {
             Title = p.Title,
             Body = p.Body,
             ModifiedBy = p.ModifiedBy,
-            LastModifiedDate = EF.Property<DateTime>(p, AuditableEntityBase.PeriodStart),
-            DeleteDate = EF.Property<DateTime>(p, AuditableEntityBase.PeriodEnd)
+            LastModifiedDate = EF.Property<DateTime>(p, context.PeriodStart),
+            DeleteDate = EF.Property<DateTime>(p, context.PeriodEnd)
         })
         .FirstOrDefault();
 

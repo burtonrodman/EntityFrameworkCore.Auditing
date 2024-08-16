@@ -6,6 +6,8 @@ namespace burtonrodman.EntityFrameworkCore.Auditing;
 public abstract class AuditableDbContext : DbContext
 {
     private readonly ICurrentUserAccessor _currentUserAccessor;
+    public string PeriodStart { get; set; } = nameof(PeriodStart);
+    public string PeriodEnd { get; set; } = nameof(PeriodEnd);
 
     protected AuditableDbContext(
         DbContextOptions options,
@@ -84,5 +86,33 @@ public abstract class AuditableDbContext : DbContext
             }
         }
         return deletedEntries;
+    }
+
+    protected void ConfigureTemporalTables(ModelBuilder builder,
+      string? periodStart = null, string? periodEnd = null,
+      bool? shouldAddShadowProperties = null)
+    {
+      if (periodStart is not null) this.PeriodStart = periodStart;
+      if (periodEnd is not null) this.PeriodEnd = periodEnd;
+
+      // partially derived from: https://fiseni.com/posts/simplifying-configuration-for-temporal-tables-in-EF-Core/
+      foreach (var entityType in builder.Model.GetEntityTypes())
+      {
+        if (typeof(AuditableEntityBase).IsAssignableFrom(entityType.ClrType))
+        {
+          builder.Entity(entityType.ClrType, entity => {
+            entity.ToTable(b => b.IsTemporal(ttb => {
+              ttb.UseHistoryTable($"{entityType.GetTableName()}History");
+              ttb.HasPeriodStart(this.PeriodStart);
+              ttb.HasPeriodEnd(this.PeriodEnd);
+            }));
+
+            if (shouldAddShadowProperties ?? false) {
+              entity.Property<DateTime>(this.PeriodStart);
+              entity.Property<DateTime>(this.PeriodEnd);
+            }
+          });
+        }
+      }
     }
 }

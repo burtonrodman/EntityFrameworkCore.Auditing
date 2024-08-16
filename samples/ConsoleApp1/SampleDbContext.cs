@@ -12,14 +12,11 @@ public class SampleDbContext : AuditableDbContext
     { }
 
     public DbSet<BlogPost> BlogPosts { get; set; }
+    public DbSet<User> Users { get; set; }
 
     override protected void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var shouldAddShadowProperties = !this.Database.IsSqlServer();
-        modelBuilder.Entity<BlogPost>(entity =>
-        {
-            entity.ToTable(nameof(BlogPosts), b => b.IsTemporalExplicit(nameof(BlogPosts)))
-                .TryAddPeriodShadowProperties(shouldAddShadowProperties);
-        });
+      modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleDbContext).Assembly);
+      ConfigureTemporalTables(modelBuilder);
     }
 }
