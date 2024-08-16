@@ -90,8 +90,19 @@ SQL Server has a feature called "Temporal Tables" or "System-versioned Tables". 
 In order to create a full audit log (including when AND who), this library adds the ModifiedBy field. `SaveChanges[Async]` is overridden and updates the ModifiedBy column.  For deleted rows, the state is changed to Modified and the ModifiedBy field is updated before finally deleting the row.  This gives full auditing of inserts, updates and deletes.
 
 # Troubleshooting
-- PROBLEM:  TODO
-    - SOLUTION:  TODO
+- PROBLEM:  I need to access the PeriodStart and PeriodEnd column names statically for things like AutoMapper Profiles.
+    - SOLUTION:  add constants to your DbContext class, and pass to `ConfigureTemporalTables`
+```
+  public partial class MyDbContext : AuditableDbContext
+  {
+    // provide static values for PeriodStart and PeriodEnd for mapping Profile
+    public const string PeriodStartColumnName = "SysStartTime";
+    public const string PeriodEndColumnName = "SysEndTime";
+```
+Use in OnModelCreating:
+```
+      ConfigureTemporalTables(modelBuilder, PeriodStartColumnName, PeriodEndColumnName);
+```
 
 # Contributing
 I welcome Pull Requests for any improvement or bug fixes.  Please open an Issue for discussion if you plan on adding any features, so that we can collaborate on design.  For bug reports, a Pull Request with a failing unit test is ideal.
