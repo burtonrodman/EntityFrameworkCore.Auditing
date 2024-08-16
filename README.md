@@ -35,8 +35,10 @@ services.AddScoped<ICurrentUserAccessor>(serviceProvider => new DelegateCurrentU
 
 ## Setup your DbContext
 1. Add a using for `burtonrodman.EntityFrameworkCore.Auditing` to your DbContext file or global usings.
+
+Usings.cs:
 ```
-using burtonrodman.EntityFrameworkCore.Auditing;
+global using burtonrodman.EntityFrameworkCore.Auditing;
 ```
 2. Change the base type of your DbContext to `AuditableDbContext` and add or modify the constructor to take the instance of `ICurrentUserAccessor` and pass it to the base constructor.
 ```
@@ -52,21 +54,28 @@ public class SampleDbContext : AuditableDbContext
 ```
 public class BlogPost : AuditableEntityBase
 ```
-4. determine if the current run-time context is talking to SQL Server:
+4. OPTIONAL: determine if the current run-time context is talking to SQL Server:
 
-for testing scenarios where you may be using an in-memory or sqlite provider, the shadow properties provided by the SQL Server provider will not be available.  We have the `TryAddPeriodShadowProperties` extension that adds them so your queries using the PeriodStart and PeriodEnd columns do not break during testing.
-```
-var shouldAddShadowProperties = !this.Database.IsSqlServer();
-```
-5. For each entity type, in `OnModelCreating` call the `IsTemporalExplicit` method:
-```
-modelBuilder.Entity<BlogPost>(entity =>
-{
-    entity.ToTable(nameof(BlogPosts), b => b.IsTemporalExplicit(nameof(BlogPosts)))
-        .TryAddPeriodShadowProperties(shouldAddShadowProperties);
-});
+for testing scenarios where you may be using an in-memory or sqlite provider, the shadow properties provided by the SQL Server provider will not be available.  We have the `shouldAddShadowProperties` parameter that adds them so your queries using the PeriodStart and PeriodEnd columns do not break during testing.
 
+5. override OnModelCreating:
 ```
+    override protected void OnModelCreating(ModelBuilder modelBuilder)
+    {
+
+      modelBuilder.ApplyConfigurationsFromAssembly(typeof(SampleDbContext).Assembly);
+
+      ConfigureTemporalTables(modelBuilder,
+        shouldAddShadowProperties: !this.Database.IsSqlServer());
+
+    }
+```
+
+ 6. OPTIONAL:  override the Period column names:
+ ```
+      ConfigureTemporalTables(modelBuilder, "SysStartTime", "SysEndTime",
+        shouldAddShadowProperties: !this.Database.IsSqlServer());
+ ```
 
 ## Create A Migration
 Now that your DbContext and entities are configured, you may generate a new migration that will apply System-versioning and also add the ModifiedBy column to your table(s).
