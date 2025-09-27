@@ -1,10 +1,18 @@
 name: publish to nuget
+
+permissions:
+  id-token: write   # required for GitHub OIDC
+
 on:
   push:
     branches:
       - main
+
 jobs:
   publish:
+    permissions:
+      id-token: write  # enable GitHub OIDC token issuance for this job
+
     name: build, pack & publish
     runs-on: ubuntu-latest
     steps:
@@ -21,5 +29,12 @@ jobs:
       - name: Pack
         run: dotnet pack src/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing.csproj -c Release
 
+      # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish NuGet Package
-        run: dotnet nuget push /home/runner/work/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing/src/EntityFrameworkCore.Auditing/bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push /home/runner/work/EntityFrameworkCore.Auditing/EntityFrameworkCore.Auditing/src/EntityFrameworkCore.Auditing/bin/Release/*.nupkg --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
